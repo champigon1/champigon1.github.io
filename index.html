@@ -1,85 +1,136 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Count Up and Down</title>
-    </head>
-    <body>
-        <h1>Count Up and Down</h1>
-    <div class="button-container">
-        <button onclick="countUp()">CountUp</button>
-        <button onclick="countDown()">CountDown</button>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Scientific Calculator</title>
+<style>
+    
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif; /* Modern font */
+}
+
+/* Basic styling for the calculator */
+.calculator {
+    width: 300px;
+    margin: 50px auto;
+    border-radius: 20px; /* Rounded corners for the calculator */
+    padding: 30px;
+    background: linear-gradient(135deg, #85a4ff 0%, #9df2b8 100%); /* Gradient background */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2); /* Box shadow for depth */
+}
+
+/* Style for the input display */
+#expression {
+    width: calc(100% - 20px); /* Adjusts for padding */
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px; /* Rounded corners for input */
+    background-color: #fff;
+}
+
+/* Style for buttons */
+.buttons button {
+    padding: 10px;
+    cursor: pointer;
+    margin: 5px;
+    width: 20%; /* Adjust button width as needed */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners for buttons */
+    background-color: #f8f9fa; /* Light background for buttons */
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow for buttons */
+    transition: all 0.3s; /* Smooth transition for hover effect */
+}
+
+.buttons button:hover {
+    background-color: #0080ff; /* Slight change in color on hover */
+}
+
+/* Styling for the buttons grid */
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+/* Result paragraph styling */
+#result {
+    margin-top: 10px;
+    color: #333; /* Dark color for better readability */
+    font-weight: bold; /* Bold font for result */
+}
+
+</style>
+</head>
+<body>
+<div class="calculator">
+    <h1>Scientific Calculator</h1>
+    <input type="text" id="expression" readonly>
+    <div class="buttons">
+        <button data-value="1">1</button>
+        <button data-value="2">2</button>
+        <button data-value="3">3</button>
+        <button data-value="+">+</button>
+        <button data-value="4">4</button>
+        <button data-value="5">5</button>
+        <button data-value="6">6</button>
+        <button data-value="-">-</button>
+        <button data-value="7">7</button>
+        <button data-value="8">8</button>
+        <button data-value="9">9</button>
+        <button data-value="*">*</button>
+        <button data-value="0">0</button>
+        <button data-value=".">.</button>
+        <button id="calculate">=</button>
+        <button data-value="/">/</button>
+        <button id="delete">del</button>
+        <button id="clear">clr</button>
     </div>
-    <audio id="myAudio" src="Levels_Sidhu_Moose_Wala_Sunny_Malton.mp3" preload="auto"></audio>
-    <script>
-        let count = 0;
-        const audio = document.getElementById('myAudio');
+    <p id="result"></p>
+</div>
+<script>
+    
+    document.addEventListener('DOMContentLoaded', function() {
+    var expressionField = document.getElementById('expression');
+    var resultParagraph = document.getElementById('result');
 
-        function countUp() {
-            count++;
-            checkCount();
+    // Add value to expression for buttons with data-value attribute
+    document.querySelectorAll('.buttons button[data-value]').forEach(function(button) {
+        button.addEventListener('click', function() {
+            expressionField.value += this.getAttribute('data-value');
+        });
+    });
+
+    // Calculate the result
+    document.getElementById('calculate').addEventListener('click', function() {
+        try {
+            var result = eval(expressionField.value);
+            resultParagraph.textContent = 'Expression is ' + expressionField.value + ' Result is ' + result;
+            expressionField.value += ' = ' + result; // Display the result in the input field as well
+        } catch (error) {
+            resultParagraph.textContent = 'Invalid expression';
+            expressionField.value = ''; // Clear the input field if there's an error
         }
+    });
 
-        function countDown() {
-            count--;
-            checkCount();
-        }
+    // Delete the last character
+    document.getElementById('delete').addEventListener('click', function() {
+        expressionField.value = expressionField.value.slice(0, -1);
+    });
 
-        function checkCount() {
-            if (count % 5 === 0) {
-                audio.play();
-                alert("Count is divisible by 5: " + count);
-            } else {
-                alert("Current Count: " + count);
-            }
-        }
-    </script>
-        <br><br>
-        <img src="97d575eac5d68b4bd951882510419346.jpg">
-        <h2>My name is Sukhmandeep. And I love</h2>
-        <ol>
-        <li>CODING IN PYTHON(atleast for now)</li><br>
-        <li>Playing Basketball my favourite players are : </li>   <br>
-            <ul>
-                <li> STEPHEN CURRY </li>
-                <br>
-                <li><a href="https://en.wikipedia.org/wiki/LeBron_James">LEBRON JAMES</a></li><br>
-                <li><a href="https://www.espn.com/nba/player/_/id/6442/kyrie-irving">KYRIE IRVING</a></li>
-            </ul>
-            <br>
-        <li>WORKING OUT </li>
-        <br>
-        <li>STRAWBERRIES 🍓</li>    
-        </ol>
+    // Clear the expression
+    document.getElementById('clear').addEventListener('click', function() {
+        expressionField.value = '';
+        resultParagraph.textContent = '';
+    });
+});
 
-    <h1><a href="https://compscistu.capilanou.ca/~sukhmandeepkalra/">HERES THE LINK TO THE WEBSITE I CREATED </a></h1>
-
-    <p> Heres my Fav song by Sidhu Moosewala named levels</p>
-    <audio controls>
-        <source src="Levels_Sidhu_Moose_Wala_Sunny_Malton.mp3">
-        Your browser does not support the audio element.
-      </audio><br><br>
-      <table border="1">
-        <tr>
-            <th>Course Number</th>
-            <th>Course Name</th>
-        </tr>
-        <tr>
-            <td>COMP 165</td>
-            <td>Multimedia and Internet</td>
-        </tr>
-        <tr>
-            <td>COMP 215</td>
-            <td>Intro to Computational Science</td>
-        </tr>
-        <tr>
-            <td>ENG 100</td>
-            <td>University Writing Strategies</td>
-        </tr>
-        <tr>
-            <td>MATH 105</td>
-            <td>Precalculus</td>
-        </tr>
-    </table>
-    </body>
+</script>
+</body>
 </html>
+
 
