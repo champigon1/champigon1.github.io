@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Weather App</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>    
+<body>
+    <h1>Weather App</h1>
+    <label for="city-select">Select a city:</label>
+    <select id="city-select">
+        <optgroup label="North American cities">
+            <option value="Surrey">Surrey</option>
+            <option value="Vancouver">Vancouver</option>
+            <option value="North Vancouver">North Vancouver</option>
+            <option value="Gibson">Gibson</option>
+        </optgroup>
+        <optgroup label="Asian Cities">
+            <option value="Khanna">Khanna</option>
+            <option value="Hong Kong">Hong Kong</option>
+            <option value="Barog">Barog</option>
+            <option value="Mansa">Mansa</option>
+        </optgroup>
+    </select>
+    <div id="current-weather"></div>
+    <div id="forecast"></div>
+    <script src="weather.js"></script>
+</body>
+</html>
