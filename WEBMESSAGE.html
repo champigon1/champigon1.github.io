@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Submit Information to Firebase Storage</title>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const submitButton = document.querySelector('#submitButton');
+            
+            submitButton.addEventListener('click', submitForm);
+        
+            hideFormFetchDataWithAsyncAwait();
+            subscribeToRealTimeUpdates();
+        });
+       
+        async  function submitForm() {
+            const name = document.querySelector('#name').value.trim();
+            const feedback = document.querySelector('#feedback').value.trim();
+            if (name || feedback) {
+                const data = {
+                name: name,
+                feedback: feedback
+                };
+                try {
+                    //const response = await fetch('https://chat165-47f11-default-rtdb.firebaseio.com/chatMsg.json', {
+                    // The previous chat165 url is not working.
+                    //const response = await fetch('https://lab6-165-default-rtdb.firebaseio.com/msg.json', {
+                    const response = await fetch('https://feb13-lab6-default-rtdb.firebaseio.com/msg.json', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error('Error saving data');
+                    }
+                    hideFormFetchDataWithAsyncAwait();
+                } catch (error) {
+                    console.error('Error saving data: ', error.message);
+                }
+            } else {
+                alert('Please fill in the field of course feedback.');
+            }
+
+        }
+        async function hideFormFetchDataWithAsyncAwait() {
+            const messages = document.querySelector('#messages');
+            try {
+                const response = await fetch('https://feb13-lab6-default-rtdb.firebaseio.com/msg.json');
+                const data = await response.json();
+                const dataContainer = document.querySelector('#messages');
+                dataContainer.innerHTML = "<h2>Messages</h2>";
+                for (const postId in data) {
+                    const post = data[postId];
+                    dataContainer.innerHTML += `
+                            <p><u><strong>Name:</strong> ${post.name}</u>
+                                <strong>Messages:</strong> ${post.feedback}</p>
+                    `;
+                }  
+            } catch (error) {
+                throw new Error('Error fetching data:', error);
+            }
+        }
+
+        function subscribeToRealTimeUpdates() {
+    const databaseRef = new EventSource('https://feb13-lab6-default-rtdb.firebaseio.com/msg.json');
+    databaseRef.addEventListener('put', async (event) => {
+        try {
+            const newData = JSON.parse(event.data);
+            // Depending on the structure of your data, you might need to adjust how you access the message data.
+            // The following assumes `newData` directly contains the message data in a property named `data`.
+            const messageData = newData.data; // This may need adjustment based on your data structure.
+            
+            const dataContainer = document.querySelector('#messages');
+            if (messageData && (messageData.name || messageData.feedback)) { // Check if data is valid
+                dataContainer.innerHTML += `
+                    <p><u><strong>Name:</strong> ${messageData.name}</u>
+                        <strong>Messages:</strong> ${messageData.feedback}</p>
+                `;
+            }
+        } catch (error) {
+            console.error('Error handling real-time update:', error);
+        }
+    });
+}
+                // // Subscribe to real-time updates
+                // const databaseRef = new EventSource('https://feb13-lab6-default-rtdb.firebaseio.com/msg.json');
+                // databaseRef.addEventListener('put', async (event) => {
+                //     try {
+                //         const newData = JSON.parse(event.data);
+                //         const messageData = newData.data;
+                //         if (messageData.name || messageData.feedback) { // Check if data is valid
+                //             dataContainer.innerHTML += `
+                //             <p><u><strong>Name:</strong>${messageData.name}</u>
+                //                     <strong>Messages:</strong>${messageData.feedback}</p>
+                //             `;
+                //         }
+                //     } catch (error) {
+                //         console.error('Error handling real-time update:', error);
+                //     }
+                // });
+    </script>
+</head>
+<body>
+    <div id="submitForm">
+        <h1>Hi, COMP165!</h1>
+        <div class="form-group">
+            <label for="name">Name (Optional):</label>
+            <input type="text" id="name" placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+            <label for="feedback">Message:</label>
+            <textarea id="feedback" rows="6" maxlength="500" placeholder="Write whatever you want to say"></textarea>
+        </div>
+        <button id="submitButton">Submit</button>
+    </div>
+
+    <div id="messages">
+        
+    </div>
+</body>
+</html>
