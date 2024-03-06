@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple E-Commerce Website</title>
+    <style>
+    body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+}
+
+
+h2, h3 {
+    color: #333;
+}
+#hell{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    align-content: center;
+}
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.fruit {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    margin: 10px;
+    width: 30%;
+}
+
+.fruit h3 {
+    margin-top: 0;
+}
+
+.fruit p, .fruit button {
+    margin-bottom: 10px;
+}
+
+button {
+    background-color: #ff8e8e;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: #e77e7e;
+}
+
+#cartDetails {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 20px;
+}
+
+#cartDetails table {
+    margin-top: 20px;
+}
+
+#cartDetails th {
+    color: #fff;
+    background-color: #333;
+}
+
+#showHideCart, #submit {
+    margin-top: 20px;
+    width: 200px;
+    display: block;
+}
+
+#submit {
+    background-color: #4CAF50; /* Green */
+}
+
+#submit:hover {
+    background-color: #45a049;
+}
+
+</style>
+    
+
+<script>
+    let cartItems = []; // Array
+
+    function addToCart(productName, price) {
+        cartItems.push({ name: productName, price: price });
+        displayCart();
+    }
+
+    function displayCart() {
+        const cartElement = document.querySelector('#cart');
+        const cartCountElement = document.querySelector('#cartCount');
+        const cartDetails = document.querySelector('#cartDetails');
+        const totalPriceElement = document.getElementById('totalPrice');
+
+        cartElement.innerHTML = '';
+        let totalPrice = 0;
+        let productCount = {}; // Object
+
+        cartItems.forEach(item => {
+            if (productCount[item.name]) {
+                productCount[item.name]++;
+            } else {
+                productCount[item.name] = 1;
+            }
+            totalPrice += item.price;
+        });
+
+        cartCountElement.textContent = cartItems.length;
+
+        // for (let productName in productCount) {
+        //     const amount = productCount[productName];
+        //     const li = document.createElement('li');
+        //     const unitPrice = cartItems.find(item => item.name === productName).price;
+        //     const totalProductPrice = unitPrice * amount;
+        //     li.textContent = `${productName} - Amount: ${amount}, Unit Price: $${unitPrice}, Total: $${totalProductPrice}`;
+        //     cartElement.appendChild(li);
+        // }
+
+        // Get the div element with id "cart"
+        const cartDiv = document.getElementById('cart');
+        
+        // Clear the content of the cartDiv
+        cartDiv.innerHTML = `
+            <table id='cartTable'>
+            <tr>
+                <th>Fruit</th>
+                <th>Amount</th>
+                <th>Unit Price</th>
+                <th>Price</th>
+            </tr>
+            <tbody>
+                <!-- Table rows will be added dynamically using JavaScript -->
+            </tbody>
+            </table>
+        `;
+
+        // Loop through each product in the productCount object
+        for (let productName in productCount) {
+            const amount = productCount[productName];
+            const unitPrice = cartItems.find(item => item.name === productName).price;
+            const totalProductPrice = unitPrice * amount;
+
+            // Create a new table row
+            const tr = document.createElement('tr');
+
+            // Create table cells for each piece of information
+            const productNameCell = document.createElement('td');
+            productNameCell.textContent = productName;
+            tr.appendChild(productNameCell);
+
+            const amountCell = document.createElement('td');
+            amountCell.textContent = amount;
+            tr.appendChild(amountCell);
+
+            const unitPriceCell = document.createElement('td');
+            unitPriceCell.textContent = `$${unitPrice}`;
+            tr.appendChild(unitPriceCell);
+
+            const totalProductPriceCell = document.createElement('td');
+            totalProductPriceCell.textContent = `$${totalProductPrice}`;
+            tr.appendChild(totalProductPriceCell);
+
+            // Append the table row to the table
+            cartTable.appendChild(tr);
+        }
+
+        // Append the table to the cartDiv
+        cartDiv.appendChild(cartTable);
+
+
+        totalPriceElement.textContent = `Total Price: $${totalPrice}`;
+    }
+
+    function toggleCartDetails() {
+        const cartDetails = document.querySelector('#cartDetails');
+        if (cartDetails.style.display === 'none') {
+            cartDetails.style.display = 'block';
+        } else {
+            cartDetails.style.display = 'none';
+        }
+    }
+
+    async function submitOrder() {
+        const databaseUrl = 'https://lab7-chat-3f334-default-rtdb.firebaseio.com/chatMsg.json';
+
+        const timestamp = new Date().toLocaleString();
+
+        // Prepare order data
+        const orderData = {
+            timestamp: timestamp,
+            items: {}
+        };
+
+        // Populate items and their amounts in the order data
+        cartItems.forEach(item => {
+            if (orderData.items[item.name]) {
+                orderData.items[item.name].amount++;
+            } else {
+                orderData.items[item.name] = {
+                    price: item.price,
+                    amount: 1
+                };
+            }
+        });
+        //console.log(orderData);
+        try {
+            const response = await fetch(databaseUrl, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(orderData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to send message');
+            }
+            // Clear cart and reset UI
+            cartItems = [];
+            displayCart();
+            alert('Order submitted successfully!');
+        } catch (error) {
+            console.error('Error submitting order:', error);
+            alert('Failed to submit order. Please try again later.');
+        }
+            
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const cartDetails = document.querySelector('#cartDetails');
+        cartDetails.style.display = 'none';
+
+        document.querySelector('#showHideCart').onclick = toggleCartDetails;
+
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        addToCartButtons.forEach(button => {
+            button.onclick = function() {
+                const productName = button.getAttribute('data-product');
+                const productPrice = parseFloat(button.getAttribute('data-price'));
+                addToCart(productName, productPrice);
+            };
+        });
+
+         // Submit order button event listener
+         document.querySelector('#submit').onclick = submitOrder;
+    });
+</script>
+</head>
+<body>
+    <h2 id ="hell">Simple E-Commerce Website</h2>
+
+    <div class="products">
+        <div class="fruit" id="apple">
+            <h3>Apples</h3>
+            <p>Price (each): $2</p>
+            <button class="add-to-cart" data-product="Apple" data-price="2">Add to Cart</button>
+        </div>
+        <div class="fruit" id="pineapple">
+            <h3>Pineapples</h3>
+            <p>Price (each): $5</p>
+            <button class="add-to-cart" data-product="Pineapple" data-price="5">Add to Cart</button>
+        </div>
+        <div class="fruit" id="durian">
+            <h3>Durians</h3>
+            <p>Price: $200</p>
+            <button class="add-to-cart" data-product="Durian" data-price="200">Add to Cart</button>
+        </div>
+    </div>
+
+    <h2>Shopping Cart (<span id="cartCount">0</span>)</h2>
+    <div id="cartDetails">
+        <ul id="cart"></ul>
+        <p id="totalPrice">Total Price: $0</p>
+    </div>
+
+    <button id="showHideCart">Show/Hide Cart Details</button>
+    <button id="submit">Submit Order</button> <!---->
+</body>
+</html>
