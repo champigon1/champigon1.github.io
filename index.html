@@ -5,6 +5,7 @@
     <title>INDEX</title>
     <style>
        
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -15,7 +16,8 @@
 html {
     font-size: 16px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #fafafa;
+    /* Gradient background for the entire page */
+    background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
     color: #333;
 }
 
@@ -31,8 +33,9 @@ body {
     width: 100%;
     max-width: 640px;
     background: #ffffff;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%); /* Adding gradient to the container background */
     border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     padding: 40px;
     margin-bottom: 20px;
     text-align: center;
@@ -40,6 +43,7 @@ body {
 
 .button-container button {
     background-color: #4CAF50;
+    background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%); /* Gradient for buttons */
     color: white;
     border: none;
     padding: 12px 24px;
@@ -47,11 +51,12 @@ body {
     border-radius: 8px;
     cursor: pointer;
     font-weight: 600;
-    transition: background-color 0.2s;
+    transition: transform 0.2s, background-color 0.2s;
 }
 
 .button-container button:hover {
-    background-color: #45a049;
+    background: linear-gradient(135deg, #43a047 0%, #66bb6a 100%);
+    transform: scale(1.05);
 }
 
 .count-display {
@@ -73,7 +78,7 @@ th, td {
 }
 
 th {
-    background-color: #4CAF50;
+    background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%); /* Gradient for table headers */
     color: white;
 }
 
@@ -110,6 +115,7 @@ a:hover {
         font-size: 1rem;
     }
 }
+
 
     </style>
 </head>
