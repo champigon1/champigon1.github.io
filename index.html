@@ -1,173 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>INDEX</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f0f0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            min-height: 100vh;
-            color: #333;
-        }
-        .container {
-            text-align: center;
-            width: 80%;
-            max-width: 640px;
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            padding: 20px;
-            margin: 20px;
-        }
-        .button-container {
-            margin: 20px 0;
-        }
-        button {
-            background-color: #007bff;
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            margin: 0 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .count-display {
-            margin: 20px 0;
-            font-size: 20px;
-            font-weight: bold;
-        }
-        h1, h2 {
-            color: #333;
-        }
-        table {
-            margin-top: 20px;
-            width: 100%;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ccc;
-        }
-        th {
-            background-color: #007bff;
-            color: #fff;
-        }
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        ol, ul {
-            text-align: left;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Password Generator </title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Count Up and Down</h1>
-        <div class="button-container">
-            <button onclick="countUp()">Count Up</button>
-            <button onclick="countDown()">Count Down</button>
-        </div>
-        <div class="count-display" id="countDisplay">Current Count: 0</div>
-        <audio id="myAudio" src="Levels_Sidhu_Moose_Wala_Sunny_Malton.mp3" preload="auto"></audio>
-        <script>
-            let count = 0;
-            const audio = document.getElementById('myAudio');
-            const countDisplay = document.getElementById('countDisplay');
-
-            function countUp() {
-                count++;
-                checkCount();
-            }
-
-            function countDown() {
-                count--;
-                checkCount();
-            }
-
-            function checkCount() {
-                if (count % 5 === 0) {
-                    audio.play();
-                    countDisplay.innerHTML = "Count is divisible by 5: " + count;
-                } else {
-                    countDisplay.innerHTML = "Current Count: " + count;
-                }
-            }
-        </script>
-
-        <br><br>
-        <img src="97d575eac5d68b4bd951882510419346.jpg" alt="Description of Image">
-        <h2>My name is Sukhmandeep. And I love</h2>
-        <ol>
-            <li>CODING IN PYTHON(at least for now)</li>
-            <li>Playing Basketball. My favourite players are:</li>
-            <ul>
-                <li>STEPHEN CURRY</li>
-                <li><a href="https://en.wikipedia.org/wiki/LeBron_James">LEBRON JAMES</a></li>
-                <li><a href="https://www.espn.com/nba/player/_/id/6442/kyrie-irving">KYRIE IRVING</a></li>
-            </ul>
-            <li>WORKING OUT</li>
-            <li>STRAWBERRIES 🍓</li>
-        </ol>
-
-        <h1><a href="https://compscistu.capilanou.ca/~sukhmandeepkalra/">HERE'S THE LINK TO THE WEBSITE I CREATED</a></h1>
-
-        <p>Here's my fav song by Sidhu Moosewala named "Levels"</p>
-        <audio controls>
-            <source src="Levels_Sidhu_Moose_Wala_Sunny_Malton.mp3" type="audio/mp3">
-            Your browser does not support the audio element.
-        </audio><br><br>
-        <table>
-            <tr>
-                <th>Course Number</th>
-                <th>Course Name</th>
-            </tr>
-            <tr>
-                <td>COMP 165</td>
-                <td>Multimedia and Internet</td>
-            </tr>
-            <tr>
-                <td>COMP 215</td>
-                <td>Intro to Computational Science</td>
-            </tr>
-            <tr>
-                <td>ENG 100</td>
-                <td>University Writing Strategies</td>
-            </tr>
-            <tr>
-                <td>MATH 105</td>
-                <td>Precalculus</td>
-            </tr>
-        </table>
-        <br><br>
-        <a href="https://champigon1.github.io/wheather.html">A WEB WEATHER APP</a>
-        <br><br>
-        <a href="https://champigon1.github.io/WEBMESSAGE.html">LIVE MESSAGE</a>
-        <br><br>
-        <a href="https://champigon1.github.io/lab7.1.html">LAB 7 1st </a>
-        <br><br>
-        <a href="https://champigon1.github.io/LAB7.2.html">LAB 7 2nd </a>
-        <br><br>
-        <a href="https://champigon1.github.io/lab8.html"> simple e-commerce </a>
-        
+<div class="container">
+    <h1>Generate a <br><span>Random Password</span></h1>
+    <div class="display">
+        <input type="text" id="password" placeholder="Password">
+        <img src="images/copy.png" onclick="copyPassword()">
     </div>
+    <button onclick="createPassword()"><img src="images/generate.png">Generate Password</button>
+</div>
+
+<script>
+
+ const passwordBox = document.getElementById("password");
+ const lenght = 12;
+
+ const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+ const lowerCase = "abcdefghijklmnopqrstuvwxyz";
+ const number = "0123456789";
+ const symbol = "@#$%^&*()_+~|}{[]></-=";
+
+ const allChars = upperCase + lowerCase + number + symbol;
+
+function createPassword(){
+    let password = "";
+    password += upperCase[Math.floor(Math.random() * upperCase.length)];
+    password += lowerCase[Math.floor(Math.random() * lowerCase.length)];
+    password += number[Math.floor(Math.random() * number.length)];
+    password += symbol[Math.floor(Math.random() * symbol.length)];
+
+    while(lenght > password.length){
+        password += allChars[Math.floor(Math.random() * allChars.length)];
+    }
+    passwordBox.value = password;
+}
+
+
+function copyPassword(){
+    passwordBox.select();
+    document.execCommand("copy");
+}
+
+</script>
+
 </body>
 </html>
