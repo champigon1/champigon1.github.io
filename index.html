@@ -2,211 +2,155 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>INDEX</title>
+    <title>Sukhmandeep's Portfolio</title>
     <style>
-       
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: linear-gradient(to right, #2c3e50, #4ca1af); /* Smooth gradient background */
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
 
+        .container {
+            max-width: 800px;
+            padding: 40px;
+            margin: 20px;
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent background */
+            border-radius: 15px;
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+        }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        h1, h2 {
+            font-weight: normal;
+        }
 
-/* Smooth font rendering and two-tone gradient background for the entire page */
-html {
-    font-size: 16px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #6dd5ed 0%, #2193b0 100%);
-    color: #333;
-}
+        button {
+            background-color: #4ca1af; /* Buttons matching the gradient theme */
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
 
-body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-}
+        button:hover {
+            background-color: #3598db;
+        }
 
-.container {
-    width: 100%;
-    max-width: 640px;
-    background: rgba(255, 255, 255, 0.8); /* Using transparency to blend with the background */
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-    padding: 40px;
-    margin-bottom: 20px;
-    text-align: center;
-}
+        .button-container {
+            margin: 20px;
+        }
 
-.button-container button {
-    background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
-    color: white;
-    border: none;
-    padding: 12px 24px;
-    margin: 8px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: transform 0.2s, opacity 0.2s;
-    display: inline-block; /* Ensures buttons can transform properly */
-}
+        .count-display {
+            margin: 20px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
 
-.button-container button:hover {
-    transform: scale(1.05);
-    opacity: 0.9;
-}
+        a {
+            color: #53b3cb;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
 
-.count-display {
-    margin: 24px 0;
-    font-size: 1.25rem;
-    font-weight: bold;
-}
+        a:hover {
+            color: #3598db;
+            text-decoration: underline;
+        }
 
-table {
-    margin-top: 20px;
-    width: 100%;
-    border-collapse: collapse;
-}
+        ol, ul {
+            text-align: left;
+            display: inline-block; /* Aligns list in the center */
+            text-align: start;
+        }
 
-th, td {
-    padding: 12px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
 
-th {
-    background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
-    color: white;
-}
+            h1 {
+                font-size: 1.5rem;
+            }
 
-tr:nth-child(even) {
-    background-color: rgba(255, 255, 255, 0.5); /* Using transparency for striping */
-}
-
-a {
-    color: #fff; /* Adjusted for better visibility against the background */
-    transition: color 0.2s ease-in-out;
-}
-
-a:hover {
-    color: #adeeee; /* Lighter shade for hover state */
-    text-decoration: underline;
-}
-
-/* Responsive design adjustments */
-@media (max-width: 768px) {
-    .container {
-        width: 90%;
-        padding: 20px;
-    }
-
-    body {
-        padding: 10px;
-    }
-
-    .button-container button {
-        padding: 10px 20px;
-    }
-
-    .count-display {
-        font-size: 1rem;
-    }
-}
-
-
+            .count-display, ol, ul {
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Count Up and Down</h1>
+        <h1>Welcome to My World</h1>
+        <h2>Count Up and Down</h2>
         <div class="button-container">
             <button onclick="countUp()">Count Up</button>
             <button onclick="countDown()">Count Down</button>
         </div>
         <div class="count-display" id="countDisplay">Current Count: 0</div>
-        <audio id="myAudio" src="Levels_Sidhu_Moose_Wala_Sunny_Malton.mp3" preload="auto"></audio>
         <script>
             let count = 0;
-            const audio = document.getElementById('myAudio');
             const countDisplay = document.getElementById('countDisplay');
 
             function countUp() {
                 count++;
-                checkCount();
+                updateDisplay();
             }
 
             function countDown() {
                 count--;
-                checkCount();
+                updateDisplay();
             }
 
-            function checkCount() {
-                if (count % 5 === 0) {
-                    audio.play();
-                    countDisplay.innerHTML = "Count is divisible by 5: " + count;
-                } else {
-                    countDisplay.innerHTML = "Current Count: " + count;
-                }
+            function updateDisplay() {
+                countDisplay.textContent = "Current Count: " + count;
             }
         </script>
 
-        <br><br>
-        <img src="97d575eac5d68b4bd951882510419346.jpg" alt="Description of Image">
-        <h2>My name is Sukhmandeep. And I love</h2>
+        <p>Here are a few things about me:</p>
         <ol>
-            <li>CODING IN PYTHON(at least for now)</li>
-            <li>Playing Basketball. My favourite players are:</li>
+            <li>I enjoy coding in Python</li>
+            <li>Big fan of basketball, especially:</li>
             <ul>
-                <li>STEPHEN CURRY</li>
-                <li><a href="https://en.wikipedia.org/wiki/LeBron_James">LEBRON JAMES</a></li>
-                <li><a href="https://www.espn.com/nba/player/_/id/6442/kyrie-irving">KYRIE IRVING</a></li>
+                <li>Stephen Curry</li>
+                <li>LeBron James</li>
+                <li>Kyrie Irving</li>
             </ul>
-            <li>WORKING OUT</li>
-            <li>STRAWBERRIES 🍓</li>
+            <li>Passionate about working out</li>
+            <li>I love strawberries 🍓</li>
         </ol>
 
-        <h1><a href="https://compscistu.capilanou.ca/~sukhmandeepkalra/">HERE'S THE LINK TO THE WEBSITE I CREATED</a></h1>
+        <h2>Check Out My Work</h2>
+        <a href="https://compscistu.capilanou.ca/~sukhmandeepkalra/">My Portfolio Website</a>
 
-        <p>Here's my fav song by Sidhu Moosewala named "Levels"</p>
-        <audio controls>
-            <source src="Levels_Sidhu_Moose_Wala_Sunny_Malton.mp3" type="audio/mp3">
-            Your browser does not support the audio element.
-        </audio><br><br>
-        <table>
-            <tr>
-                <th>Course Number</th>
-                <th>Course Name</th>
-            </tr>
-            <tr>
-                <td>COMP 165</td>
-                <td>Multimedia and Internet</td>
-            </tr>
-            <tr>
-                <td>COMP 215</td>
-                <td>Intro to Computational Science</td>
-            </tr>
-            <tr>
-                <td>ENG 100</td>
-                <td>University Writing Strategies</td>
-            </tr>
-            <tr>
-                <td>MATH 105</td>
-                <td>Precalculus</td>
-            </tr>
-        </table>
-        <br><br>
-        <a href="https://champigon1.github.io/wheather.html">A WEB WEATHER APP</a>
-        <br><br>
-        <a href="https://champigon1.github.io/WEBMESSAGE.html">LIVE MESSAGE</a>
-        <br><br>
-        <a href="https://champigon1.github.io/lab7.1.html">LAB 7 1st </a>
-        <br><br>
-        <a href="https://champigon1.github.io/LAB7.2.html">LAB 7 2nd </a>
-        <br><br>
-        <a href="https://champigon1.github.io/lab8.html"> simple e-commerce </a>
+        <h2>Favorite Song</h2>
+        <p>"Levels" by Sidhu Moosewala</p>
         
+        <h2>My Courses</h2>
+        <ul>
+            <li>COMP 165: Multimedia and Internet</li>
+            <li>COMP 215: Intro to Computational Science</li>
+            <li>ENG 100: University Writing Strategies</li>
+            <li>MATH 105: Precalculus</li>
+        </ul>
+        
+                <h2>Useful Links</h2>
+        <a href="https://champigon1.github.io/wheather.html">Web Weather App</a><br>
+        <a href="https://champigon1.github.io/WEBMESSAGE.html">Live Message Board</a><br>
+        <a href="https://champigon1.github.io/lab7.1.html">Lab 7 Part 1</a><br>
+        <a href="https://champigon1.github.io/LAB7.2.html">Lab 7 Part 2</a><br>
+        <a href="https://champigon1.github.io/lab8.html">Simple E-Commerce Site</a>
     </div>
+   
 </body>
 </html>
+
